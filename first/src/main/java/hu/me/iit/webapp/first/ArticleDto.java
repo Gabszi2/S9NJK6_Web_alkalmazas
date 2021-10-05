@@ -1,10 +1,19 @@
 package hu.me.iit.webapp.first;
 
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class ArticleDto {
+    @NotNull
+    private Long id;
+    @NotNull
+    @NotBlank
     private String author;
+    @NotBlank
     private String title;
+    @Min(10)
     private Integer pages;
 
     public String getAuthor() {
@@ -33,10 +42,19 @@ public class ArticleDto {
 
     @Override
     public String toString() {
-        return "Article{" +
-                "author='" + author + '\'' +
+        return "ArticleDto{" +
+                "id=" + id +
+                ", author='" + author + '\'' +
                 ", title='" + title + '\'' +
                 ", pages=" + pages +
                 '}';
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
