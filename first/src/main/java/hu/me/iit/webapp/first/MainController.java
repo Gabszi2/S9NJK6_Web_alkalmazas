@@ -4,7 +4,6 @@ package hu.me.iit.webapp.first;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +14,11 @@ public class MainController {
     private List<ArticleDto> articles =new ArrayList<>();
     @GetMapping(path="", produces= MediaType.APPLICATION_JSON_VALUE)
     List<ArticleDto> allArticles() {
-
    return articles;
     }
+
     @PostMapping(path="")
-    void newArticle(@RequestBody @Valid ArticleDto articleDto){
+    void newArticle(@RequestBody ArticleDto articleDto){
         articles.add(articleDto);
     }
     private int findArticleById(String id){
@@ -32,8 +31,9 @@ public class MainController {
         }
         return found;
     }
+
     @PutMapping(path="/{id}")
-        void replaceArticle(@PathVariable("id") String id, @RequestBody @Valid ArticleDto articleDto){
+        void replaceArticle(@PathVariable("id") String id, @RequestBody ArticleDto articleDto){
             int found=findArticleById(id);
             for (int i=0;i<articles.size();i++){
                 if (articles.get(i).getTitle().equals(id)){
