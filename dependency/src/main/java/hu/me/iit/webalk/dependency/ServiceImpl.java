@@ -20,6 +20,23 @@ public class ServiceImpl implements Service{
     }
 
     public int callHelpAndUseReturnValue() {
+
         return dependency.helpNoParameterReturnValue();
     }
+
+    public void callHelpAndPassParameter5(){
+        dependency.helpWithParameterNoReturnValue(5);
+    }
+   /*public String getImportantAbstract(String text){
+        final String dot="...";
+        final String abs=text.substring(0,3).concat(dot);
+
+
+        String important=dependency.Important(abs);
+        return important;
+    }*/
+    public void callImportantAbstract(){
+        dependency.helpImportant("text");
+    }
+        
 }
