@@ -1,0 +1,59 @@
+package hu.uni.miskolc.iit.webalk.adatb.service;
+
+import hu.uni.miskolc.iit.webalk.adatb.repository.PeopleRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+@Service
+public class PeopleServiceImpl implements PeopleService {
+    private final PeopleRepository peopleRepository;
+
+    public PeopleServiceImpl(PeopleRepository peopleRepository) {
+        this.peopleRepository = peopleRepository;
+    }
+
+
+    @Override
+    public Iterable<People> getAllPeople() {
+
+        return StreamSupport.stream(peopleRepository.findAll().spliterator(), false)
+                .map(People::new)
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public People create(People people) {
+        return new People(peopleRepository.save(people.toEntity()));
+    }
+
+    @Override
+    public boolean deleteById(Long id) {
+        Iterable<People> people = getAllPeople();
+        for(People person : people) {
+            if(person.getId().equals(id)) {
+                peopleRepository.deleteById(id);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+}
+/*
+	@Override
+	public Iterable<People> gettAllPeople() {
+		List<People> rv = new ArrayList<>();
+
+		StreamSupport.stream(peopleRepository.findAll().spliterator(), false);
+		for(hu.me.iit.webalk.db.repository.People people : peopleRepository.findAll()) {
+			rv.add(new People(people));
+		}
+
+		return rv;
+	}*/

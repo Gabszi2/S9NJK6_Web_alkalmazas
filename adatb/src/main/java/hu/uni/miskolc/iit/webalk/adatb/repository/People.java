@@ -1,4 +1,4 @@
-package hu.uni.miskolc.iit.webalk.adatb;
+package hu.uni.miskolc.iit.webalk.adatb.repository;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +20,14 @@ public class People {
         this.id = id;
     }
 
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     public String getName() {
         return name;
     }
@@ -28,11 +36,11 @@ public class People {
         this.name = name;
     }
 
-    public int getAge() {
-        return age;
-    }
+    public People() {}
 
-    public void setAge(int age) {
+    public People(Long id, int age, String name) {
+        this.id = id;
         this.age = age;
+        this.name = name;
     }
 }

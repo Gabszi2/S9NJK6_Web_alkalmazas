@@ -1,4 +1,4 @@
-package hu.uni.miskolc.iit.webalk.adatb;
+package hu.uni.miskolc.iit.webalk.adatb.repository;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 
