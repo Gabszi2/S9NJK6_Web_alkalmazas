@@ -30,13 +30,29 @@ public class PeopleController {
         return peopleDtoList;
     }
 
-    @PostMapping/*(consumes = "application/json")*/
+    @PostMapping(consumes = "application/json")
     public PeopleDto save(@RequestBody @Valid PeopleCreateDto peopleCreateDto) {
         return new PeopleDto(peopleService.create(peopleCreateDto.toPeople()));
     }
 
     @DeleteMapping(path="/{id}")
-    public boolean deleteById(@PathVariable("id") Long id) {
-        return peopleService.deleteById(id);
+    public void deleteById(@PathVariable("id") Long id) {
+        peopleService.deleteById(id);
     }
+
+    @GetMapping("/{id}")
+    public PeopleDto getById(@PathVariable("id") Long id){
+       return new PeopleDto( peopleService.getById(id));
+    }
+
+    @PutMapping
+    void put(@RequestBody @Valid PeopleDto peopleDto){
+        peopleService.save(peopleDto.toPeople());
+    }
+
+    /*@GetMapping("/findByAgeGt")
+    void findAdoultPeople(@RequestParam("age") int age){
+
+        peopleService.findByAgeGreatherThan(age);
+    }*/
 }

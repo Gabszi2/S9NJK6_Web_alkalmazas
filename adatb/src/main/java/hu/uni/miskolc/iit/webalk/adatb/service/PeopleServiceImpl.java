@@ -1,10 +1,11 @@
 package hu.uni.miskolc.iit.webalk.adatb.service;
 
 import hu.uni.miskolc.iit.webalk.adatb.repository.PeopleRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -32,16 +33,30 @@ public class PeopleServiceImpl implements PeopleService {
     }
 
     @Override
-    public boolean deleteById(Long id) {
-        Iterable<People> people = getAllPeople();
-        for(People person : people) {
-            if(person.getId().equals(id)) {
-                peopleRepository.deleteById(id);
-                return true;
-            }
+    public void deleteById(Long id) {
+        try {
+            peopleRepository.deleteById(id);
+        }catch (EmptyResultDataAccessException ex){
+            throw new NoSuchEntityException(id);
         }
+    }
 
-        return false;
+    @Override
+    public People getById(Long id) {
+        Optional<hu.uni.miskolc.iit.webalk.adatb.repository.People> optionalPeople=peopleRepository.findById(id);
+        if (optionalPeople.isEmpty()){
+            throw  new NoSuchEntityException(id);
+        }
+        return new People(optionalPeople.get());
+    }
+
+    @Override
+    public void save(People people) {
+        Optional<hu.uni.miskolc.iit.webalk.adatb.repository.People> optionalPeople=peopleRepository.findById(people.getId());
+        if (optionalPeople.isEmpty()){
+            throw  new NoSuchEntityException(people.getId());
+        }
+        peopleRepository.save(people.toEntity());
     }
 
 }
